@@ -1,0 +1,10 @@
+librosa
+torch
+pytorch_lightning
+torchaudio
+numpy
+pandas
+matplotlib
+tqdm
+tensorflow
+keras
