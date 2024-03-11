@@ -10,10 +10,11 @@ import numpy as np
 # from the accent.gmu website, pass in list of languages to scrape mp3 files and save them to disk
 def mp3getter(lst):
     for j in range(len(lst)):
-        for i in range(1,lst[j][1]+1):
+        for i in range(63,lst[j][1]+1):
             while True:
                 try:
-                    urlretrieve("http://accent.gmu.edu/soundtracks/{0}{1}.mp3".format(lst[j][0], i), '{0}{1}.mp3'.format(lst[j][0], i))
+                    print(">>> http://accent.gmu.edu/soundtracks/{0}{1}.mp3".format(lst[j][0], i))
+                    urlretrieve("http://accent.gmu.edu/soundtracks/{0}{1}.mp3".format(lst[j][0], i), '../audio/{0}{1}.mp3'.format(lst[j][0], i))
                 except:
                     time.sleep(2)
                 else:
@@ -152,4 +153,7 @@ def get_speaker_info(start, stop):
 # copy files from one list of wav files to a specified location
 def copy_files(lst, path):
     for filename in lst:
-        shutil.copy2('{}.wav'.format(filename), '{}/{}.wav'.format(path, filename))
+        shutil.copy2('{}.mp3'.format(filename), '{}/{}.wav'.format(path, filename))
+
+mp3getter([('english', 660)])
+# copy_files(['../audio/english1'], '../resource/audio')
