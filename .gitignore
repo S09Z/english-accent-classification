@@ -1,3 +1,3 @@
 .vscode
-audio/*
+# audio/*
 __pycache__
