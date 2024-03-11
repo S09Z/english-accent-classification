@@ -1,17 +1,16 @@
 
 from __future__ import print_function
+from sklearn.model_selection import train_test_split
 import numpy as np
-from sklearn.cross_validation import train_test_split
-from sklearn.metrics import classification_report
-#np.random.seed(1337)  # for reproducibility
 
-from keras.preprocessing import sequence
+# Set the random seed for reproducibility
+np.random.seed(1337)
+import tensorflow as tf
+from keras.utils import to_categorical
 from keras.models import Sequential
-from keras.layers.core import Dense, Dropout, Activation, Flatten
-from keras.layers.normalization import BatchNormalization
-from keras.layers.convolutional import Convolution1D, MaxPooling1D
-from keras.utils import np_utils
-
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import BatchNormalization
+from keras.layers import MaxPooling1D, Convolution1D  # Updated Convolution1D to Conv1D
 
 # set parameters:
 test_dim = 2999
@@ -42,8 +41,8 @@ ytss = y_test.shape
 print(len(X_train), 'train sequences')
 print(len(X_test), 'test sequences')
 
-Y_train = np_utils.to_categorical(y_train, nb_classes)
-Y_test = np_utils.to_categorical(y_test, nb_classes)
+Y_train = to_categorical(y_train, nb_classes)
+Y_test = to_categorical(y_test, nb_classes)
 
 # print('Pad sequences (samples x time)')
 # X_train = sequence.pad_sequences(X_train, maxlen=maxlen)
@@ -103,11 +102,13 @@ model.add(Dropout(0.25))
 model.add(Dense(2))
 model.add(Activation('softmax'))
 
-model.compile(loss='binary_crossentropy',
-              optimizer='rmsprop')
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
 model.fit(X_train, Y_train, batch_size=batch_size,
-          nb_epoch=nb_epoch,  verbose=1,
-          validation_data=(X_test, Y_test), show_accuracy=True)
+          epochs=nb_epoch, verbose=1,
+          validation_data=(X_test, Y_test))
 
 #y_preds = model.predict(X_test)
 

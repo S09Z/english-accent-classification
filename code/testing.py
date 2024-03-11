@@ -1,13 +1,10 @@
 import numpy as np
 import pandas as pd
-from features import mfcc
-from features import logfbank
 import scipy.io.wavfile as wav
 from scipy.io.wavfile import write as wav_write
 import librosa
-import scikits.samplerate
 import os
-
+import shutil
 
 '''
 mfcc(signal, samplerate=16000, winlen=0.025, winstep=0.01, numcep=13, nfilt=26, nfft=512, lowfreq=0, highfreq=None, preemph=0.97, ceplifter=22, appendEnergy=True)
@@ -44,7 +41,7 @@ def downsample(filename, outrate=8000, write_wav = False):
 def make_standard_length(filename, n_samps=240000):
     down_sig, rate = downsample(filename)
     normed_sig = librosa.util.fix_length(down_sig, n_samps)
-    normed_sig = (normed_sig - np.mean(normed_sig))/np.std(normed_sig))
+    normed_sig = (normed_sig - np.mean(normed_sig))/np.std(normed_sig)
     return normed_sig
 
 # from a folder containing wav files, normalize each, divide into num_splits-1 chunks and write the resulting np.arrays to a single matrix
@@ -63,7 +60,7 @@ def make_split_audio_array(folder, num_splits = 5):
 # for input wav file outputs (13, 2999) mfcc np array
 def make_normed_mfcc(filename, outrate=8000):
     normed_sig = make_standard_length(filename)
-    normed_mfcc_feat = mfcc(normed_sig, outrate)
+    normed_mfcc_feat = librosa.feature.mfcc(normed_sig, outrate)
     normed_mfcc_feat = normed_mfcc_feat.T
     return normed_mfcc_feat
 
@@ -76,7 +73,7 @@ def make_librosa_mfcc(filename):
 # make mfcc np array from wav file using speech features package
 def make_mfcc(filename):
     (rate, sig) = wav.read(filename)
-    mfcc_feat = mfcc(sig, rate)
+    mfcc_feat = librosa.feature.mfcc(sig, rate)
     mfcc_feat = mfcc_feat.T
     return mfcc_feat
 
@@ -93,7 +90,7 @@ def make_class_array(folder):
 def make_mean_mfcc(filename):
     try:
         (rate, sig) = wav.read(filename)
-        mfcc_feat = mfcc(sig, rate)
+        mfcc_feat = librosa.feature.mfcc(sig, rate)
         avg_mfcc = np.mean(mfcc_feat, axis = 0)
         return avg_mfcc
     except:
@@ -127,7 +124,7 @@ def make_mean_mfcc_df(folder):
     norms = []
     for filename in os.listdir(folder):
         (rate, sig) = wav.read(filename)
-        mfcc_feat = mfcc(sig, rate)
+        mfcc_feat = librosa.feature.mfcc(sig, rate)
         mean_mfcc = np.mean(mfcc_feat, axis = 0)
         #mean_mfcc = np.reshape(mean_mfcc, (1,13))
         norms.append(mean_mfcc)

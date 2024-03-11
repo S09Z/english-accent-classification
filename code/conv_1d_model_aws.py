@@ -1,16 +1,16 @@
 
 from __future__ import print_function
 import numpy as np
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 np.random.seed(1337)  # for reproducibility
 
 from keras.preprocessing import sequence
-from keras.layers.noise import GaussianNoise
+from keras.layers import GaussianNoise
 from keras.models import Sequential
-from keras.layers.core import Dense, Dropout, Activation, Flatten
-from keras.layers.normalization import BatchNormalization
-from keras.layers.convolutional import Convolution1D, MaxPooling1D, AveragePooling1D
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import BatchNormalization
+from keras.layers import Convolution1D, MaxPooling1D, AveragePooling1D
 from keras.utils import np_utils
 
 
@@ -135,7 +135,7 @@ model.add(Activation('softmax'))
 model.compile(loss='categorical_crossentropy',
               optimizer='adam', metrics = ["accuracy"])
 model.fit(X_train, Y_train, batch_size=batch_size,
-          nb_epoch=nb_epoch,  verbose=1,
+          epochs=nb_epoch,  verbose=1,
           validation_data=(X_test, Y_test))
 
 # print report of recall, precision, f1 score 

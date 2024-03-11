@@ -1,4 +1,4 @@
-import urllib
+from urllib.request import urlretrieve
 import time
 import shutil
 from requests import get
@@ -13,7 +13,7 @@ def mp3getter(lst):
         for i in range(1,lst[j][1]+1):
             while True:
                 try:
-                    urllib.urlretrieve("http://accent.gmu.edu/soundtracks/{0}{1}.mp3".format(lst[j][0], i), '{0}{1}.mp3'.format(lst[j][0], i))
+                    urlretrieve("http://accent.gmu.edu/soundtracks/{0}{1}.mp3".format(lst[j][0], i), '{0}{1}.mp3'.format(lst[j][0], i))
                 except:
                     time.sleep(2)
                 else:

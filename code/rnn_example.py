@@ -8,9 +8,9 @@ np.random.seed(1337)  # for reproducibility
 from keras.preprocessing import sequence
 from keras.utils import np_utils
 from keras.models import Sequential
-from keras.layers.core import Dense, Dropout, Activation
-from keras.layers.recurrent import LSTM
-from sklearn.cross_validation import train_test_split
+from keras.layers import Dense, Dropout, Activation
+from keras.layers import LSTM
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 
 batch_size = 25
@@ -54,7 +54,7 @@ model.add(Dense(nb_classes, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=["accuracy"])
 
 print("Train...")
-model.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=5, validation_data=(X_test, Y_test))
+model.fit(X_train, Y_train, batch_size=batch_size, epochs=5, validation_data=(X_test, Y_test))
 
 y_pred=model.predict_classes(X_test, batch_size=batch_size)
 print(classification_report(y_test, y_pred))
