@@ -9,3 +9,4 @@ tqdm
 tensorflow
 keras
 bs4
+torchsummary
