@@ -8,6 +8,7 @@ def load_audio(path):
     audio, sr = torchaudio.load(path)
     return audio, sr
 
+# load_audio("../resource/audio/english20.wav")
 
 def double_channel(sig):
     audio, sr = sig

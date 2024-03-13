@@ -155,5 +155,9 @@ def copy_files(lst, path):
     for filename in lst:
         shutil.copy2('{}.mp3'.format(filename), '{}/{}.wav'.format(path, filename))
 
-mp3getter([('english', 660)])
-# copy_files(['../audio/english1'], '../resource/audio')
+# mp3getter([('english', 660)])
+copyList = []
+for i in range(20):
+    copyList.append("../audio/english{0}".format(i + 1))
+# print(copyList)
+copy_files(copyList, '../resource/audio')
